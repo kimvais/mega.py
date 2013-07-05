@@ -199,11 +199,12 @@ class Mega(object):
 
     ##########################################################################
     # GET
-    def find(self, filename):
+    def find(self, filename, files=None):
         """
         Return file object from given filename
         """
-        files = self.get_files()
+        if files is None:
+            files = self.get_files()
         for file in files.items():
             if file[1]['a'] and file[1]['a']['n'] == filename:
                 return file

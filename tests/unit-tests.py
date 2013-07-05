@@ -16,6 +16,7 @@ mega = Mega()
 m = mega.login()
 # normal login
 #m = mega.login(email, password)
+files = m.get_files()
 
 FIND_RESP = None
 TEST_CONTACT = 'test@mega.co.nz'
@@ -45,11 +46,10 @@ class TestMega(unittest.TestCase):
         self.assertIsInstance(resp, dict)
 
     def test_get_files(self):
-        files = m.get_files()
         self.assertIsInstance(files, dict)
 
     def test_get_link(self):
-        file = m.find(TEST_FILE)
+        file = m.find(TEST_FILE, files)
         if file:
             link = m.get_link(file)
             self.assertIsInstance(link, str)
@@ -65,24 +65,25 @@ class TestMega(unittest.TestCase):
         self.assertIsInstance(resp, dict)
 
     def test_rename(self):
-        file = m.find(TEST_FOLDER)
+        file = m.find(TEST_FOLDER, files)
         if file:
             resp = m.rename(file, TEST_FOLDER)
             self.assertIsInstance(resp, int)
 
     def test_delete_folder(self):
-        folder_node = m.find(TEST_FOLDER)[0]
-        resp = m.delete(folder_node)
-        self.assertIsInstance(resp, int)
+        folder_node = m.find(TEST_FOLDER, files)
+        if folder_node:
+            resp = m.delete(folder_node[0])
+            self.assertIsInstance(resp, int)
 
     def test_delete(self):
-        file = m.find(TEST_FILE)
+        file = m.find(TEST_FILE, files)
         if file:
             resp = m.delete(file[0])
             self.assertIsInstance(resp, int)
 
     def test_destroy(self):
-        file = m.find(TEST_FILE)
+        file = m.find(TEST_FILE, files)
         if file:
             resp = m.destroy(file[0])
             self.assertIsInstance(resp, int)
