@@ -1,7 +1,7 @@
 # Mega.py
 [![Build Status](https://travis-ci.org/kimvais/mega.py.png?branch=master)](https://travis-ci.org/kimvais/mega.py)
 
-** This fork adds Python 3 support **
+**This fork adds Python 3 support**
 
 Python library for the Mega.co.nz API, currently supporting:
  - login
