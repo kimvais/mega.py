@@ -66,8 +66,9 @@ def encrypt_attr(attr, key):
 
 
 def decrypt_attr(attr, key):
-    attr = aes_cbc_decrypt(attr, a32_to_str(key)).rstrip('\0')
-    return json.loads(attr[4:]) if attr[:6] == 'MEGA{"' else False
+    attr = aes_cbc_decrypt(attr, a32_to_str(key)).rstrip(b'\0')
+    return json.loads(
+        attr[4:].decode('utf-8')) if attr[:6] == b'MEGA{"' else False
 
 
 def a32_to_str(a):
@@ -98,8 +99,10 @@ def base64_to_a32(s):
 
 def base64_url_encode(data):
     data = base64.b64encode(data)
-    for search, replace in (('+', '-'), ('/', '_'), ('=', '')):
+    for search, replace in ((b'+', b'-'), (b'/', b'_'), (b'=', b'')):
         data = data.replace(search, replace)
+    if isinstance(data, bytes):
+        data = data.decode('ascii')
     return data
 
 
